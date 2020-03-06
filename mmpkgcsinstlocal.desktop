@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=mmpkgcsinst
+Name=mmpkgcsinstlocal
 Name[jp]=mmパッケージインストーラ
 Comment=ペインティングマシーン作成作業スクリプト
 Exec=bash -c '_PWD="$PWD"; cd "`echo $0 | sed s/mmpkgcsinstlocal.desktop$//`"; ./mm_pkgcsinst.sh run; cd "_PWD"' %k
