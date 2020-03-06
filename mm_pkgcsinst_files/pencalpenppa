@@ -1,0 +1,107 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs="pencal"
+devpkgs="yad xinput-calibrator"
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+
+	if [ -e /opt/pentablet/pencal/penctrl.sh ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_installpencal()
+{
+
+cd /tmp
+
+git clone --recursive https://github.com/megamuteki/pencal.git
+
+cd /tmp/pencal 
+
+#pencaldir
+dir=/opt/pentablet/pencal; [ ! -e $dir ] && sudo  mkdir -p $dir
+
+#penctrl.sh
+sudo cp  ./penctrl.sh  $dir
+
+#calmod.sh
+sudo cp  ./calmod.sh  $dir
+
+#xtcal
+sudo cp  ./xtcal  $dir
+
+#pencal.desktop
+sudo cp  ./pencal.desktop  /usr/share/applications/
+
+sudo chmod +x /usr/share/applications/pencal.desktop
+sudo chmod +x $dir/penctrl.sh 
+sudo chmod +x $dir/calmod.sh 
+sudo chmod +x $dir/xtcal 
+
+rm -rf /tmp/pencal
+
+}
+
+
+# Install Pencal Script
+
+    _install ${devpkgs}
+
+	if _installpencal ; then
+		_log "$pkgsのインストールに成功しました。"
+	else
+		_err "$pkgsのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstallpencal()
+{
+
+#files
+#desktop file
+dir1=/usr/share/applications/
+file1=/usr/share/applications/pencal.desktop; [  -e $dir1 ] && sudo  rm  -f  $file1
+
+dir2=/opt/pentablet/pencal
+file2=/opt/pentablet/pencal/penctrl.sh; [  -e $dir2 ] && sudo  rm  -f $file2
+file3=/opt/pentablet/pencal/calmod.sh; [  -e $dir2 ] && sudo  rm  -f  $file3
+file4=/opt/pentablet/pencal/xtcal; [  -e $dir2 ] && sudo  rm  -f  $file4
+
+#pencal directory
+dir3=/opt/pentablet/pencal
+if [ -z "$(ls $dir3)" ]; then
+    sudo rm -rf $dir3
+fi
+
+#pentablet dir
+dir4=/opt/pentablet/
+if [ -z "$(ls $dir4)" ]; then
+    sudo rm -rf $dir4
+fi
+
+}
+       
+    
+	if  _uninstallpencal ; then
+		_log "$pkgsのアンインストールに成功しました。"
+	else
+		_err "$pkgsのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

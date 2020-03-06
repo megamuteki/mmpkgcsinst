@@ -1,0 +1,67 @@
+#!/bin/bash
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+ppa="dummy"
+pkgs="appimagelauncher"
+
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${pkgs}) == "y" ] ; then
+		echo TRUE
+	else	
+		echo FALSE 
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+	_installappimagelauncher ()
+	{
+		echo "AppImageLauncherをダウンロードしています。"
+		cd /tmp
+		deb="appimagelauncher_2.1.1-travis931.f6d5926.bionic_amd64.deb"
+		_log "debをダウンロードします。"
+
+		if wget -c https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.1.1/${deb} ; then
+			_log "$debのダウンロードに成功しました。"
+		else
+			_err "$debのダウンロードに失敗しました。"
+			return 1
+		fi
+
+
+		if sudo dpkg -i ${deb}  ; then
+			_log "$debインストールに成功しました。"
+		else
+			sudo apt update --fix-missing
+			if sudo apt install --fix-broken ; then
+				_log "$debインストールに成功しました。"
+			else
+				_err "$debのインストールに失敗しました。"
+
+			fi
+
+		fi
+	}
+
+	if _installappimagelauncher then ; then
+		_log "$pkgsインストールに成功しました。"
+	else
+		_err "$pkgsのインストールに失敗しました。ファイルが残っているかも知れません。"
+
+	fi
+			
+	_log "一時ファイルを除去しています..."
+	rm -f ${deb}
+
+
+
+
+# Purge
+elif [ "$1" == "-p" ] ; then
+	_purge ${pkgs}
+
+fi

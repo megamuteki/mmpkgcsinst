@@ -1,0 +1,65 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs="youtube-dl"
+
+
+datadir=$(cd $(dirname "$0") && pwd)
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+
+	if [ -f /usr/local/bin/youtube-dl ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_installyoutubedl()
+{
+
+cd /tmp
+sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+sudo chmod a+rx /usr/local/bin/youtube-dl
+
+
+}
+
+
+# Install youtube-dl Script
+
+
+	if _installyoutubedl ; then
+		_log "$pkgsのインストールに成功しました。"
+        _log "使用方法は、https://github.com/ytdl-org/youtube-dl/blob/master/README.md  にあります。"
+	else
+		_err "$pkgsのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstallyoutubedl()
+{
+
+#files
+sudo rm -f /usr/local/bin/youtube-dl
+
+}
+       
+    
+	if  _uninstallyoutubedl ; then
+		_log "$pkgsのアンインストールに成功しました。"
+	else
+		_err "$pkgsのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

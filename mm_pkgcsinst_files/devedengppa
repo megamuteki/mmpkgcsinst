@@ -1,0 +1,65 @@
+#!/bin/bash
+
+ppa="dummy"
+aptpkgs="devede"
+debpkgs="python3-devedeng"
+
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${aptpkgs}) == "n" ]  &&  [ $(_check ${debpkgs}) == "y" ]   ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+	echo "DevedeNGをダウンロードしています。"
+	cd /tmp
+
+	deb="python3-devedeng-bionic_4.16.0-ubuntu1_all.deb"
+	
+	_log "${deb}"
+
+	if wget -c  http://www.rastersoft.com/descargas/devedeng/${deb} ; then
+		_log "$debのダウンロードに成功しました。"
+	else
+		_err "$debのダウンロードに失敗しました。"
+	
+	fi
+		
+	
+	if sudo dpkg -i ${deb}  ; then
+		_log "$debインストールに成功しました。"
+	else
+		sudo apt update --fix-missing
+		if sudo apt install --fix-broken ; then
+			_log "$pkgsインストールに成功しました。"
+		else
+			_err "$pkgsのインストールに失敗しました。"
+
+		fi
+
+	fi
+
+	_log "一時ファイルを除去しています..."
+
+	rm -f ${deb}
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+	_purge ${debpkgs}
+
+
+fi
+

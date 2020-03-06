@@ -1,0 +1,158 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs="digimend-dkms"
+devpkgs=" xserver-xorg-input-wacom dpkg-dev debhelper dkms  evtest  "
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+
+	kversion=$(uname -r)
+	if [ -e /lib/modules/$kversion/extra/hid-uclogic.ko ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_initialsetup()
+{
+	cd /tmp/xppenexp
+	
+	DKMS_MODULES_NAME=digimend
+	chckdkms=$(dkms status $DKMS_MODULES_NAME | grep .  | wc -l)
+
+	if [ $chckdkms -gt 0 ] ;then
+		_log "digimend dkmsは、既にインストールされています。\n 追加インストールは、不要です。"
+		
+	else
+		sudo apt-get install -y "linux-headers-$(uname -r)"	
+		sudo apt-get install -y dkms
+		sudo make dkms_install
+		_log "digimend dkmsをインストールしました。"
+	fi
+
+}
+
+
+
+_installxppenexp()
+{
+
+	cd /tmp/xppenexp
+	make
+	sudo make install
+	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
+	rm -rf /tmp/xppenexp
+
+}
+
+
+#install ${devpkgs}
+echo -e "コンパイルに必要なライブラリをインストールします。\n 少し、時間がかかります。"
+
+if _install ${devpkgs} ; then
+	_log "コンパイルに必要なライブラリのインストールに成功しました。"
+	else
+	_err "コンパイルに必要なライブラリのインストールに失敗しました。ファイルが残ったかも知れません"
+fi
+	
+
+
+#donwload 
+echo -e "コンパイルに必要なソースコードをダウンロードします。\n 少し、時間がかかります。"
+
+cd /tmp
+if git clone --recursive https://github.com/megamuteki/xppenexp.git ; then
+	_log "ダウンロードに成功しました。"
+	else
+	_err "ダウンロードに失敗しました。ファイルが残ったかも知れません"
+fi
+
+#inisialsetupi
+echo -e "コンパイルに必要な初期設定をします。\n 少し、時間がかかります。"
+
+if _initialsetup ; then
+	_log "コンパイルに必要な初期設定に成功しました。"
+	else
+	_err "コンパイルに必要な初期設定に失敗しました。"
+fi
+
+#install
+echo -e "カーネルモジュールのインストールをします。　\n 少し、時間がかかります。"
+
+if _installxppenexp ; then
+	_log "カーネルモジュールのインストールに成功しました。"
+	echo  -e "タブレットサービスが動作するまで、数分かかることがあります。\n その間、マウスなど等が反応しない時があります。しばらくお待ちください。"
+	else
+	_err "カーネルモジュールのインストールに失敗しました。"
+fi
+
+	
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+#アンインストールするルール
+_modules_uninstall ()
+{
+	sudo rm -vf /lib/modules/*/extra/hid-kye.ko \
+				/lib/modules/*/extra/hid-polostar.ko \
+				/lib/modules/*/extra/hid-uclogic.ko \
+				/lib/modules/*/extra/hid-viewsonic.ko
+	       
+}
+
+_udev_rules_uninstall ()
+{
+	sudo rm -vf /lib/udev/rules.d/90-digimend.rules
+	sudo rm -vf /lib/udev/hid-rebind
+}
+
+
+_depmod_conf_uninstall ()
+{
+	sudo rm -vf /etc/depmod.d/digimend.conf
+	
+}
+
+
+_xorg_conf_uninstall ()
+{
+	sudo rm -vf /usr/share/X11/xorg.conf.d/50-digimend.conf
+
+}
+
+
+
+
+#モジュールのアンインストール
+echo -e "カーネルモジュールのアンインストールをします。　\n 少し、時間がかかります。"
+
+_uninstallxppenexp()
+{
+	_modules_uninstall
+	_udev_rules_uninstall
+	_depmod_conf_uninstall
+	_xorg_conf_uninstall
+	sudo udevadm control --reload
+	sudo depmod -a
+
+}
+       
+    
+	if  _uninstallxppenexp ; then
+		_log "カーネルモジュールののアンインストールに成功しました。"
+	else
+		_err "カーネルモジュールののアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+fi

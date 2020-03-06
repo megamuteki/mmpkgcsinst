@@ -1,0 +1,49 @@
+#!/bin/bash
+
+pkgs="appimagelauncher"
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${pkgs}) == "n" ] ; then
+		echo FALSE
+	else
+		echo TRUE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+	
+	if [ $(_check ${pkgs}) == "n" ] ; then
+		
+		echo "AppImageLouncher をダウンロードしています..."
+		cd /tmp
+		
+		_log "https://github.com/TheAssassin/AppImageLauncher/releases/download/v1.5.0/appimagelauncher_1.5.0-travis780.git20190816.cc1a7ad.bionic_amd64.deb"
+		if wget -c "https://github.com/TheAssassin/AppImageLauncher/releases/download/v1.5.0/appimagelauncher_1.5.0-travis780.git20190816.cc1a7ad.bionic_amd64.deb" ; then
+			_log "AppImageLouncher のダウンロードに成功しました。"
+			
+		else
+			_err "AppImageLouncher のダウンロードに失敗しました。"
+			
+			exit 1
+		fi
+		
+		if sudo dpkg -i $(ls | grep -m 1 "^appimagelauncher.*deb$") ; then
+						
+			_log "AppImageLouncher のインストールに成功しました。"
+			rm -f $(ls | grep -m 1 "^appimagelauncher.*deb$")
+		else
+			_err "AppImageLouncherのインストールに失敗しました。"
+			exit 1
+		fi
+		
+	fi
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+	_purge ${pkgs}
+fi

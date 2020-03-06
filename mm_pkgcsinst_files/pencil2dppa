@@ -1,0 +1,103 @@
+#!/bin/bash
+
+ppa="dummy"
+pkgs="pencil2d"
+devpkgs="make g++ clang qt5-default qt5-qmake libqt5xmlpatterns5-dev libqt5svg5-dev qtmultimedia5-dev qtcreator"
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ -e /bin/pencil2d ] && [ $(_check ${pkgs}) == "n" ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+_installpencil2d()
+{
+	INSTDIR="/tmp"
+	cd $INSTDIR
+
+	git clone https://github.com/pencil2d/pencil.git $INSTDIR/pencil
+	cd $INSTDIR/pencil
+	qmake
+	mkdir build; pushd build; qmake -r -spec linux-g++-64 CONFIG+=debug ..; popd
+	make -C build
+	cd $INSTDIR/pencil/build/
+	sudo make install
+	sudo cp /share/applications/pencil2d.desktop /usr/share/applications/pencil2d.desktop
+	sudo chmod +x /usr/share/applications/pencil2d.desktop
+	sudo cp /share/icons/hicolor/256x256/apps/pencil2d.png /usr/share/pixmaps/pencil2d.png	
+	rm -rf $INSTDIR/pencil
+	
+}
+
+
+	if [ $(_check ${pkgs}) == "y" ]  ; then
+		_err "既に他のバージョンが存在します。他のバージョンのアンインストールが必要です。"
+	else
+		read -n1 -p "開発版と必要なライブラリもインストールします。よろしいですか? (y/N): " yn
+		if [[ $yn = [yY] ]]; then
+			echo "インストールを継続します。"
+            echo "必要なライブラリをインストールします。時間がかかります"
+            _install ${devpkgs}
+            _log "必要なライブラリのインストールが終了しました。"            
+			_installpencil2d | grep -e Error -e Fatal  -e NOTE  >> /tmp/mm_pkginst.log
+
+		else
+			echo "終了します。"
+			exit
+		fi
+
+	fi
+		
+	if [ -e /bin/pencil2d ] ; then
+		_log "pencil2d(GitMaster)のインストールに成功しました。"
+	else
+		_err "pencil2d(GitMaster)のインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+
+_uninstallpencil2d()
+{
+	sudo rm -f /bin/pencil2d
+	sudo rm -f /share/applications/pencil2d.desktop
+	sudo rm -f /share/bash-completion/completions/pencil2d
+	sudo rm -f /share/icons/hicolor/256x256/apps/pencil2d.png
+	sudo rm -f /share/mime/packages/pencil2d.xml
+	sudo rm -f /share/zsh/site-functions/_pencil2d
+	sudo rm -f /usr/share/app-install/desktop/pencil2d:pencil2d.desktop
+	sudo rm -f /usr/share/app-install/icons/pencil2d.png
+	sudo rm -f /usr/share/pixmaps/pencil2d.png
+	rm -rf $HOME/.config/pencil
+	echo 1
+
+}
+       
+    
+	if [ $(_uninstallpencil2d) ] ; then
+		_log "Pencil2d(GitMaster)のアンインストールに成功しました。"
+	else
+		_err "Pencil2d(GitMaster)のアンインストールに失敗したかフォルダが残ったかもしれませせん。"
+	fi
+
+
+fi
+
+
+# MakeFileのインストールディレクトリ
+# /share/bash-completion/completions/pencil2d
+# /share/zsh/site-functions/_pencil2d
+# /bin/pencil2d
+# /share/mime/packages/pencil2d.xml
+# /share/applications/pencil2d.desktop
+# /share/icons/hicolor/256x256/apps/pencil2d.png

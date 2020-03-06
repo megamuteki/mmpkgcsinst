@@ -1,0 +1,146 @@
+#!/bin/bash
+
+echo  -e 	"\n \e[34;1m------------------"	
+echo  -e	"動作に必要なライブラリ等の確認と追加をします。"
+echo  -e	"leafpad, yad, git,svn, build-essential, \nfdupes, ppa-purgeの確認とインストールとシステムのアップデートを行います。"
+echo  -e	"\n yを入力した場合は、必要なパッケージを確認しインストールします。\n不要なパッケージをクリーンアップしてアップデートをします。"
+echo  -e 	"\n nを入力した場合は、システムのアップデートをのみを行います。"
+echo  -e	"インストールを繰り返している場合は、\n一般的にシステムのアップデートのみで良い時が多いです。"
+echo  -e	"\n yまたはnを入力してください"
+echo  -e 	" ------------------\e[m \n"
+
+#####アップデート処理などを行うか尋ねる
+#Yes No の質問をします。
+_ask_yes_no()
+{
+  while true; do
+    echo -n "$* [y/n]: "
+    read ANS
+    case $ANS in
+      [Yy]*)
+        return 0
+        ;;  
+      [Nn]*)
+        return 1
+        ;;
+      *)
+        echo "yまたはnを入力してください"
+        ;;
+    esac
+  done
+}
+
+_setup()
+{
+#ターミナルの設定
+if [ $(dpkg-query -W -f='${Status}' xfce4-terminal  2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	termapp="xfce4-terminal"
+
+else
+	termapp="xterm"
+fi
+
+
+
+#エディタの設定
+if [ $(dpkg-query -W -f='${Status}' leafpad  2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	editapp="leafpad"
+
+else
+	sudo apt install leafpad -y
+fi
+
+
+
+#yadの設定
+if [ $(dpkg-query -W -f='${Status}' yad  2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	yadapp="yad"
+
+else
+	sudo apt install yad -y
+
+fi
+
+
+#gitの設定
+if [ $(dpkg-query -W -f='${Status}' git  2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	gitapp="git"
+
+else
+	sudo apt install git git-svn subversion -y
+
+fi
+
+#git-svnの設定
+if [ $(dpkg-query -W -f='${Status}' git-svn  2>/dev/null | grep -c "ok installed") -eq 1 ] || [ $(dpkg-query -W -f='${Status}' subversion  2>/dev/null | grep -c "ok installed") -eq 1 ] ;
+then
+	gitsvnapp="git-svn"
+
+else
+	sudo apt install git-svn subversion -y
+
+fi
+
+
+#基本開発環境の設定
+if [ $(dpkg-query -W -f='${Status}' build-essential 2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	buildapp="build-essential"
+
+else
+	sudo apt install build-essential -y
+fi
+
+
+
+
+#重複行検索コマンドfdupesの設定
+if [ $(dpkg-query -W -f='${Status}' fdupes  2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	fdupesapp="fdupes"
+
+else
+	sudo apt install fdupes -y
+
+fi
+
+#重複業検索コマンドppa-purgeの設定
+if [ $(dpkg-query -W -f='${Status}' ppa-purge   2>/dev/null | grep -c "ok installed") -eq 1 ];
+then
+	ppaapp="ppa-purge "
+
+else
+	sudo apt install ppa-purge  -y
+
+fi
+
+sudo apt update
+sudo apt full-upgrade
+sudo apt autoremove
+sudo apt autoclean
+}
+
+
+
+if _ask_yes_no "よろしいですか？"; then
+# 「Yes」の時の処理
+	echo		"動作に必要なライブラリ等の確認と追加をしてシステムのアップデートをします。。"
+	_setup
+else
+# 「No」の時の処理
+	echo "リポジトリのアップデートのみを行います。"
+
+fi
+
+
+
+sudo apt update
+echo  -e 	"\n \e[34;1m------------------"	
+echo -e "\n準備が出来ましたので、次に進みます。"
+echo "キーを押すとウインドウを閉じて終了し次のメニューに進みます。"
+echo  -e 	" ------------------\e[m \n"
+read ans

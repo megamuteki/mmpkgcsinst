@@ -1,0 +1,72 @@
+#!/bin/bash
+
+ppa="dummy"
+pkgs="ubuntu-restricted-extras libdvd-pkg"
+repo1="main" 
+repo2="restricted"
+repo3="universe"
+repo4="multiverse"
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${pkgs}) == "y" ]  &&  [ $(_ppacheck ${ppa}) == "n" ] ; then
+		echo TRUE
+	else	
+		echo FALSE 
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+	if [ $(_check ${pkgs}) == "y" ]  &&  [ $(_ppacheck ${ppa}) == "y" ] ; then
+		_err "既に他のバージョンが存在します。他のバージョンのアンインストールが必要です。"
+	else
+
+	echo "universe multiverseのリポジトリを追加します。このリポジトリから提供されているアプリに影響がでます。"
+	echo "影響が予測できない場合は、そのままにしておくことをおすすめします。"
+
+	#Yes No の質問をします。
+	if _ask_yes_no "リポジトリを追加しますか？"; then
+
+	# 「Yes」の時の処理
+	sudo apt-add-repository  $repo3
+	sudo apt-add-repository  $repo4
+	sudo update
+	
+	else
+	#「No」の時の処理
+		_log "リポジトリを残します。"
+	fi
+
+
+	_install ${pkgs}
+	sudo dpkg-reconfigure libdvd-pkg
+	fi
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+	_purge ${pkgs}
+
+	echo "universe multiverseのリポジトリを削除します。このリポジトリから提供されているアプリに影響がでます。"
+	echo "影響が予測できない場合は、そのままにしておくことをおすすめします。"
+
+	#Yes No の質問をします。
+	if _ask_yes_no "リポジトリを削除しますか？"; then
+
+	# 「Yes」の時の処理
+	sudo apt-add-repository --remove $repo3
+	sudo apt-add-repository --remove $repo4
+	sudo update
+	
+	else
+	#「No」の時の処理
+		_log "リポジトリを残します。"
+	fi
+
+
+fi

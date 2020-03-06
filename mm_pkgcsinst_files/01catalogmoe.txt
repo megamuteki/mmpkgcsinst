@@ -1,0 +1,12 @@
+△GIT版MoebuntuThemeの追加
+MoeBuntuのテーマを/usr/share/thmnesへインストールします。
+GIT
+http://moebuntu.web.fc2.com/
+moebuntu-themes
+---
+△GIT版MoebuntuPinkIconsの追加
+BOTH
+GIT
+http://moebuntu.web.fc2.com/
+moebuntu-icons
+---

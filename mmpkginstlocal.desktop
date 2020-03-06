@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=mmpkgcsinst
+Name[jp]=mmパッケージインストーラ
+Comment=ペインティングマシーン作成作業スクリプト
+Exec=bash -c '_PWD="$PWD"; cd "`echo $0 | sed s/mmpkgcsinstlocal.desktop$//`"; ./mm_pkgcsinst.sh run; cd "_PWD"' %k
+#Exec=x-terminal-emulator -e bash -c '_PWD="$PWD"; cd "`echo $0 | sed s/mmpkgcsinstlocal.desktop$//`"; ./mm_pkgcsinst.sh run; cd "_PWD"' %k
+Terminal=false
+Type=Application
+Icon=video-display
+StartupNotify=true
+Categories=System;Settings;
+Name[ja_JP.eucJP]=mmpkgcsinstlocal

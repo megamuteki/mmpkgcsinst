@@ -1,0 +1,130 @@
+#!/bin/bash
+
+ppa="dummy"
+devpkgs="build-essential git cmake pkg-config libboost-all-dev qt5-default qtbase5-dev libqt5svg5-dev qtscript5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev qtmultimedia5-dev libopenblas-dev libsuperlu-dev liblz4-dev libusb-1.0-0-dev liblzo2-dev libpng-dev libjpeg-dev libglew-dev freeglut3-dev libsdl2-dev libfreetype6-dev libjson-c-dev liblzma-dev  intltool"
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ -e /opt/opentoonz/bin/opentoonz ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_installtoonz()
+{
+
+cd /tmp
+
+if [ -d libmypaint ]; then
+rm -rf libmypaint
+fi	
+
+if [ -d opentoonz ]; then
+rm -rf opentoonz
+fi	
+
+	
+	
+cd /tmp
+ echo "Installing Open Toonz"
+ sudo apt-get install build-essential git cmake pkg-config libboost-all-dev qt5-default qtbase5-dev libqt5svg5-dev qtscript5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev qtmultimedia5-dev libopenblas-dev libsuperlu-dev liblz4-dev libusb-1.0-0-dev liblzo2-dev libpng-dev libjpeg-dev libglew-dev freeglut3-dev libsdl2-dev libfreetype6-dev libjson-c-dev liblzma-dev  intltool
+ git clone git://github.com/mypaint/libmypaint.git -b v1.3.0
+ cd libmypaint
+ ./autogen.sh
+ ./configure
+ make
+ sudo make install
+ sudo ldconfig
+ cd ..
+ git clone git://github.com/opentoonz/opentoonz
+ mkdir -p $HOME/.config/OpenToonz
+ cp -r opentoonz/stuff $HOME/.config/OpenToonz/
+ sudo chown -R $(whoami) $HOME/.config/OpenToonz
+ sudo chmod +rw $HOME/.config/OpenToonz
+ sudo cat << EOF > $HOME/.config/OpenToonz/SystemVar.ini
+[General]
+OPENTOONZROOT="$HOME/.config/OpenToonz/stuff"
+OpenToonzPROFILES="$HOME/.config/OpenToonz/stuff/profiles"
+TOONZCACHEROOT="$HOME/.config/OpenToonz/stuff/cache"
+TOONZCONFIG="$HOME/.config/OpenToonz/stuff/config"
+TOONZFXPRESETS="$HOME/.config/OpenToonz/stuff/projects/fxs"
+TOONZLIBRARY="$HOME/.config/OpenToonz/stuff/projects/library"
+TOONZPROFILES="$HOME/.config/OpenToonz/stuff/profiles"
+TOONZPROJECTS="$HOME/.config/OpenToonz/stuff/projects"
+TOONZROOT="$HOME/.config/OpenToonz/stuff"
+TOONZSTUDIOPALETTE="$HOME/.config/OpenToonz/stuff/studiopalette"
+EOF
+
+ 
+ cd opentoonz/thirdparty/tiff-4.0.3
+ ./configure --with-pic --disable-jbig
+ make -j$(nproc)
+ cd ../../toonz
+ mkdir -p build
+ cd build
+ cmake ../sources
+ make -j$(nproc)
+ sudo make install
+
+# DeskTopの追加
+echo "[Desktop Entry]
+Version=1.3.0
+Encoding=UTF-8
+Name=OpenToonz
+Comment=2Dアニメーションアプリ
+Exec=/opt/opentoonz/bin/opentoonz 
+Icon=/opt/opentoonz/share/icons/hicolor/256x256/apps/io.github.OpenToonz.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Graphics;2DGraphics;RasterGraphics;GTK;" | sudo tee -a  /usr/share/applications/opentoonz.desktop
+
+cd /tmp
+rm -rf libmypaint
+rm -rf opentoonz 
+echo 1
+
+}
+
+_installtoonz | grep -e Error -e Fatal    >> /tmp/mm_pkginst.log
+
+
+	if [ -e /opt/opentoonz/bin/opentoonz ] ; then
+		_log "OpenToonzのインストールに成功しました。"
+	else
+		_err "OpenToonzのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstopentoonz()
+{
+	sudo rm -rf /opt/opentoonz
+	sudo rm -f  /usr/share/applications/opentoonz.desktop
+	rm -rf  $HOME/.config/OpenToonz
+	echo 1
+	return 0
+
+}
+       
+    
+	if [ $(_uninstopentoonz) ] ; then
+		_log "OpenToonzのアンインストールに成功しました。"
+	else
+		_err "OpenToonzのアンインストールに失敗したかフォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

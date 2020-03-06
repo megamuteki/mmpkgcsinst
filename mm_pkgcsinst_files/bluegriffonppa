@@ -1,0 +1,47 @@
+#!/bin/bash
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+ppa="dummy"
+pkgs="bluegriffon"
+
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${pkgs}) == "y" ]  &&  [ $(_ppacheck ${ppa}) == "n" ] ; then
+		echo TRUE
+	else	
+		echo FALSE 
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+	echo "bluegriffonをダウンロードしています。"
+	cd /tmp
+	deb="bluegriffon-3.1.Ubuntu18.04-x86_64.deb"
+	
+
+	_log "http://bluegriffon.org/freshmeat/3.1/${deb}"
+	if wget -c http://bluegriffon.org/freshmeat/3.1/${deb} ; then
+		_log "bluegriffonのダウンロードに成功しました。"
+	else
+		_err "bluegriffonのダウンロードに失敗しました。"
+		return 1
+	fi
+	
+	if sudo dpkg -i ${deb} ; then
+		_log "bluegriffonのインストールに成功しました。"
+	else
+		_err "bluegriffonのインストールに失敗しました。"
+		return 1
+	fi
+		
+	_log "一時ファイルを除去しています..."
+	rm -f ${deb}
+
+# Purge
+elif [ "$1" == "-p" ] ; then
+	_purge ${pkgs}
+
+fi

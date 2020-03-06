@@ -1,0 +1,88 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs="xppendriver"
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+
+	if [ -e /opt/pentablet/xppen/modules/starttablet.sh ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_installxppendriver()
+{
+
+cd /tmp
+
+git clone --recursive https://github.com/megamuteki/xppendriver.git
+cd /tmp/xppendriver 
+
+dir=/opt/pentablet/xppen; [ ! -e $dir ] && sudo  mkdir -p $dir
+
+sudo cp -r ./modules  $dir
+sudo cp ./pixmaps/* /usr/share/pixmaps/
+sudo cp ./xppentablet.desktop  /usr/share/applications/
+sudo chmod +x $dir/modules/Pentablet_*
+sudo chmod +x $dir/modules/starttablet.sh
+sudo chmod +x /usr/share/applications/xppentablet.desktop
+
+rm -rf /tmp/xppendriver
+
+}
+
+
+# Install XP-PEN Driver
+
+	if _installxppendriver ; then
+		_log "$pkgsのインストールに成功しました。"
+	else
+		_err "$pkgsのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstallxppendriver()
+{
+
+#desktop files
+file1=/usr/share/pixmaps/xppen.svg; [  -e $dir ] && sudo  rm  $file1
+file2=/usr/share/pixmaps/xppen.xpm; [  -e $dir ] && sudo  rm  $file2
+file3=/usr/share/applications/xppentablet.desktop; [  -e $dir ] && sudo  rm  $file3
+
+#xppen directory
+dir1=/opt/pentablet/xppen
+if [ -n "$(ls $dir1)" ]; then
+    sudo rm -rf $dir1
+fi
+
+#pentablet dir
+dir2=/opt/pentablet/
+if [ -z "$(ls $dir2)" ]; then
+    sudo rm -rf $dir2
+fi
+
+}
+       
+    
+	if  _uninstallxppendriver ; then
+		_log "$pkgsのアンインストールに成功しました。"
+	else
+		_err "$pkgsのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

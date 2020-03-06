@@ -1,0 +1,106 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs="penmap"
+devpkgs="dummy"
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+
+	if [ -e /opt/pentablet/penmap/penmap.sh ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+_installpenmap()
+{
+
+cd /tmp
+
+git clone --recursive https://github.com/megamuteki/penmap.git
+
+cd /tmp/penmap 
+
+#penmap.sh
+dir1=/opt/pentablet/penmap/; [ ! -d $dir1 ] && sudo  mkdir -p $dir1
+sudo cp -f ./penmap*.sh  $dir1
+sudo chmod +x /opt/pentablet/penmap/penmap.sh
+sudo chown $(whoami) /opt/pentablet/penmap/penmap.sh
+sudo chmod +x /opt/pentablet/penmap/penmapmod.sh
+sudo chown $(whoami) /opt/pentablet/penmap/penmapmod.sh
+
+#penmap.desktop
+if [ -e /usr/share/applications/penmap.desktop ]; then
+     # fileが存在した場合
+    sudo cp -f ./penmap.desktop /usr/share/applications/
+    sudo chmod +x /usr/share/applications/penmap.desktop
+    sudo chown $(whoami) /usr/share/applications/penmap.desktop
+
+else 
+  # fileが存在しなかった場合
+    sudo cp  ./penmap.desktop /usr/share/applications/
+    sudo chmod +x /usr/share/applications/penmap.desktop
+    sudo chown $(whoami) /usr/share/applications/penmap.desktop
+fi
+
+rm -rf /tmp/penmap
+
+
+}
+
+
+# Install Pencmap Script
+
+
+
+	if _installpenmap ; then
+		_log "$pkgsのインストールに成功しました。"
+	else
+		_err "$pkgsのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstallpenmap()
+{
+
+#files
+#penmap.sh
+file1=/opt/pentablet/penmap/penmap.sh; [  -e $file1 ] && sudo  rm -f $file1
+file2=/opt/pentablet/penmap/penmapmod.sh; [  -e $file2 ] && sudo  rm -f $file2
+file3=/usr/share/applications/penmap.desktop; [  -e $file3 ] && sudo  rm -f $file3
+
+#penmap dir
+dir1=/opt/pentablet/penmap
+if [ -z "$(ls $dir1)" ]; then
+    sudo rm -rf $dir1
+fi
+
+#pentablet dir
+dir2=/opt/pentablet/
+if [ -z "$(ls $dir2)" ]; then
+    sudo rm -rf $dir2
+fi
+
+}
+       
+    
+	if  _uninstallpenmap ; then
+		_log "$pkgsのアンインストールに成功しました。"
+	else
+		_err "$pkgsのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

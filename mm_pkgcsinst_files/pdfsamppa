@@ -1,0 +1,63 @@
+#!/bin/bash
+
+ppa="dummy"
+debpkgs="pdfsam"
+
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${debpkgs}) == "y" ]  ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+	echo "pdfsamをダウンロードしています。"
+	cd /tmp
+
+	deb="pdfsam_4.1.1-1_amd64"
+	
+
+	if wget -c  https://github.com/torakiki/pdfsam/releases/download/v4.1.1/${deb} ; then
+		_log "$debのダウンロードに成功しました。"
+	else
+		_err "$debのダウンロードに失敗しました。"
+	
+	fi
+		
+	
+	if sudo dpkg -i ${deb}  ; then
+		_log "$debpkgsインストールに成功しました。"
+	else
+		sudo apt update --fix-missing
+		if sudo apt install --fix-broken ; then
+			_log "$debpkgsインストールに成功しました。"
+		else
+			_err "$debpkgsのインストールに失敗しました。"
+
+		fi
+
+	fi
+
+	_log "一時ファイルを除去しています..."
+
+	rm -f ${deb}
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+	_purge ${debpkgs}
+
+
+fi
+

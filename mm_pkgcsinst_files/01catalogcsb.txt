@@ -1,0 +1,113 @@
+●Blander3Dアプリ
+Adobe After Effects
+APT
+https://www.blender.org/
+blenderapt
+---
+△PPA版Blander
+Adobe After Effects
+PPA
+https://launchpad.net/~thomas-schiex/+archive/ubuntu/blender
+blenderppa
+---
+●DarkTable高機能写真編集アプリ
+Adobe Lightroom
+APT
+https://www.darktable.org/
+darktableapt
+---
+最新版DarkTable高機能写真編集アプリ
+Adobe Lightroom
+PPA
+https://launchpad.net/~pmjdebruijn/+archive/ubuntu/darktable-release
+darktableppa
+---
+●RawTherapee高機能写真編集アプリ
+Adobe Lightroom
+APT
+https://rawtherapee.com/
+rawtherapeeapt
+---
+△PPA版RawTherapee高機能写真編集アプリ
+Adobe Lightroom
+PPA
+https://launchpad.net/~dhor/+archive/ubuntu/myway
+rawtherapeeppa
+---
+●bluefish HTML、テキストエディタ
+Adobe Dreamweaver
+APT
+http://bluefish.openoffice.nl/index.html
+bluefishapt
+---
+△PPA版bluefish HTML、テキストエディタ
+Adobe Dreamweaver
+PPA
+https://launchpad.net/~klaus-vormweg/+archive/ubuntu/bluefish
+bluefishppa
+---
+△DEB版bluegriffon HTML、テキストエディタ
+Adobe Dreamweaver
+DEB
+http://bluegriffon.org/
+bluegriffonppa
+---
+△DEB版pdfsam PDFページ 加工ツール
+Adobe Acrobat
+DEB
+https://pdfsam.org/
+pdfsamppa
+---
+△pdfarranger PDF ページ加工ツール
+Adobe Acrobat
+https://launchpad.net/~linuxuprising/+archive/ubuntu/apps
+pdfarrangerppa
+---
+●devedengDVDオーサリングアプリ
+Adobe Encore
+APT
+https://rastersoft.com/programas/devede.html
+devedengapt
+---
+△DEB版devedengDVDオーサリングアプリ
+Adobe Encore
+DEB
+http://www.rastersoft.com/descargas/devedeng/
+devedengppa
+---
+●dvdstylerDVDオーサリングアプリ
+Adobe Encore
+APT
+https://www.dvdstyler.org/ja/
+dvdstylerapt
+---
+△PPA版dvdstylerDVDオーサリングアプリ
+Adobe Encore
+PPA
+https://launchpad.net/~ubuntuhandbook1/+archive/ubuntu/dvdstyler
+dvdstylerppa
+---
+△DEB版 manuskript 原稿作成支援ツール
+Adobe InCopy 
+DEB
+https://www.theologeek.ch/manuskript/
+manuskriptppa
+---
+△DEB版 ostorybook 原稿作成支援ツール
+Adobe InCopy 
+DEB
+https://ostorybook.tuxfamily.org/
+ostorybookppa
+---
+●ardour音楽編集アプリ
+Adobe Audition
+APT
+https://ardour.org/
+ardourapt
+---
+△PPA版ardour音楽編集アプリ
+Adobe Audition
+PPA
+https://launchpad.net/~ubuntustudio-ppa/+archive/ubuntu/backports
+ardourppa
+---

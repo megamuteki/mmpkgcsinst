@@ -1,0 +1,44 @@
+#!/bin/bash
+
+ppa="pmjdebruijn/darktable-release"
+pkgs="darktable"
+
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+
+if [ "$1" == "-c" ] ; then
+	if [ $(_check ${pkgs}) == "y" ]  &&  [ $(_ppacheck ${ppa}) == "y" ]  ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+
+	if [ $(_check ${pkgs}) == "y" ]  &&  [ $(_ppacheck ${ppa}) == "n" ] ; then
+		_err "既に他のバージョンが存在します。他のバージョンのアンインストールが必要です。"
+
+	else
+	_ppainstall ${ppa}  
+	_install ${pkgs}
+	
+	fi
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+	_purge ${pkgs}
+
+
+	echo "PPAを削除します。"
+	_ppapurge ${ppa}
+
+
+fi
