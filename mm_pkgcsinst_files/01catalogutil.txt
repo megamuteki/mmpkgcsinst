@@ -13,7 +13,7 @@ clamtk
 ●catfishファイル検索アプリ
 軽快で強力なファイル検索アプリ
 APT
-軽快で強力なファイル検索アプリ
+https://help.ubuntu.com/community/Catfish
 catfishutilapt
 ---
 △PPA版catfishファイル検索アプリ

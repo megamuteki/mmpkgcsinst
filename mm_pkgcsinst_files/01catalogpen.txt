@@ -13,7 +13,7 @@ arandrpenapt
 △PPA版BrightnessController輝度、色温度調整アプリ
 液タブの輝度調整、色調整をするアプリ
 PPA
-輝度や色温度を変更するデュアルモニタ対応アプリ。
+https://launchpad.net/~apandada1/+archive/ubuntu/brightness-controller
 brightnesscontrollerpenppa
 ---
 △GIT版xppenex カーネルモジュール
