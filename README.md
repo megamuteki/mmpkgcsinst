@@ -20,7 +20,21 @@ PPA版は、リポジトリの影響を他のアプリに与えたりするの�
 質問等は、下記からお願いいたします。
 https://github.com/megamuteki/mmpkgcsinst/pulls
 
-``
+
+
+## 使用方法
+
+ダウンロードしましたら、
+
+bash ./mm_pkgcsinst.sh
+
+または
+
+mmpkgcsinstlocal
+
+をダブルクリックしてください。
+
+
 
 #### １．Adobe Alternative（代役）グループ１
 

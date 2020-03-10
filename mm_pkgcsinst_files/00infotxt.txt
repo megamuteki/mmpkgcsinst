@@ -18,6 +18,9 @@ https://github.com/megamuteki/mmpkgcsinst/pulls
 からお願いいたします。
 日本語で大丈夫です。
 
+よくわからない場合は、メインマシンに利用する場合は、
+極力、SoftwareCenterまたはStoreからのご利用をおすすめいたします。
+
 
 ーーー解説１ーーー
 利用は、Linux Mint 18.3 FerenOS 2020 を利用したものを前提としております。
