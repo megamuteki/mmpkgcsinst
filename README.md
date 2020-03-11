@@ -41,32 +41,52 @@ mmpkgcsinstlocal
 ##### ●GIMPペイント画像処理ソフト
 
 Adobe Photoshop
+
 APT
+
 https://www.gimp.org/
+
+
 
 ##### △PPA版GIMPペイント画像処理ソフト
 
 Adobe Photoshop
+
 PPA
+
 https://launchpad.net/~otto-kesselgulasch/+archive/ubuntu/gimp
+
+
 
 ##### ●Digikam画像処理アプリ
 
 Adobe Photoshop
+
 APT
+
 https://www.digikam.org/
+
+
 
 ##### ●Inkscape SVGグラフィックソフト
 
 Adobe Illustrator
+
 APT
+
 https://inkscape.org/ja/
+
+
 
 ##### △PPA版Inkscape SVGグラフィックソフト
 
 Adobe Illustrator
+
 PPA
+
 https://launchpad.net/~inkscape.dev/+archive/ubuntu/stable
+
+
 
 ##### ●LibreOffice Drawグラフィックソフト
 
