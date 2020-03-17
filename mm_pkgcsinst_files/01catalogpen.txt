@@ -4,17 +4,17 @@ APT
 https://github.com/LordAmit/Brightness
 brightnesscontrollerpenapt
 ---
-●Arandrディスプレイ設定ツール
-ディスプレイのレイアウトなどを設定するツール
-APT
-https://packages.ubuntu.com/ja/bionic/arandr
-arandrpenapt
----
 △PPA版BrightnessController輝度、色温度調整アプリ
 液タブの輝度調整、色調整をするアプリ
 PPA
 https://launchpad.net/~apandada1/+archive/ubuntu/brightness-controller
 brightnesscontrollerpenppa
+---
+●Arandrディスプレイ設定ツール
+ディスプレイのレイアウトなどを設定するツール
+APT
+https://packages.ubuntu.com/ja/bionic/arandr
+arandrpenapt
 ---
 △GIT版xppenex カーネルモジュール
 xp-penタブのカーネルモジュールによりWACOMドライバを利用する。
