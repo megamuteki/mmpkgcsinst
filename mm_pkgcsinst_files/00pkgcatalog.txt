@@ -1,144 +1,44 @@
-●GIMPペイント画像処理ソフト
-Adobe Photoshop
+●BrightnessController輝度、色温度調整アプリ
+液タブの輝度調整、色調整をするアプリ
 APT
-https://www.gimp.org/
-gimpapt
+https://github.com/LordAmit/Brightness
+brightnesscontrollerpenapt
 ---
-△PPA版GIMPペイント画像処理ソフト
-Adobe Photoshop
+△PPA版BrightnessController輝度、色温度調整アプリ
+液タブの輝度調整、色調整をするアプリ
 PPA
-https://launchpad.net/~otto-kesselgulasch/+archive/ubuntu/gimp
-gimpppa
+https://launchpad.net/~apandada1/+archive/ubuntu/brightness-controller
+brightnesscontrollerpenppa
 ---
-●Digikam画像処理アプリ
-Adobe Photoshop
+●Arandrディスプレイ設定ツール
+ディスプレイのレイアウトなどを設定するツール
 APT
-https://www.digikam.org/
-digikamapt
+https://packages.ubuntu.com/ja/bionic/arandr
+arandrpenapt
 ---
-●Inkscape SVGグラフィックソフト
-Adobe Illustrator
-APT
-https://inkscape.org/ja/
-inkscapeapt
----
-△PPA版Inkscape SVGグラフィックソフト
-Adobe Illustrator
-PPA
-https://launchpad.net/~inkscape.dev/+archive/ubuntu/stable
-inkscapeppa
----
-●LibreOffice Drawグラフィックソフト
-Adobe Illustrator
-APT
-https://ja.libreoffice.org/
-libreofficeapt
----
-△PPA版LibreOffice Drawグラフィックソフト
-Adobe Illustrator
-PPA
-https://launchpad.net/~libreoffice/+archive/ubuntu/ppa
-libreofficeppa
----
-●Kritaペイントアプリ
-ClipStudio
-APT
-https://krita.org/jp/
-kritaapt
----
-△PPA版Kritaペイントアプリ
-ClipStudio
-PPA
-https://launchpad.net/~kritalime/+archive/ubuntu/ppa
-kritappa
----
-△PPA版Az-Painterペイントアプリ
-SAI
-PPA
-https://launchpad.net/~alex-p/+archive/ubuntu/azpainter
-azpainterppa
----
-●scribus DTP レイアウトアプリ
-Adobe InDesign
-APT
-https://www.scribus.net/
-scribusapt
----
-△PPA版scribus DTP レイアウトアプリ
-Adobe InDesign
-PPA
-https://launchpad.net/~scribus/+archive/ubuntu/ppa
-scribusppa
----
-●SynfigStudioアニメ制作アプリ
-Adobe  Animate
-APT
-https://www.synfig.org/
-synfigstudioapt
----
-△GIT版SynfigStudioアニメ制作アプリ
-Adobe Animate
+△GIT版xppenex カーネルモジュール
+xp-penタブのカーネルモジュールによりWACOMドライバを利用する。
 GIT
-https://github.com/synfig/synfig
-synfigstudioppa
+https://github.com/megamuteki/xppenexp
+xppenexppenppa
 ---
-●Pencil2Dアニメ制作アプリ
-Adobe  Animate
-APT
-https://www.pencil2d.org/
-pencil2dapt
----
-△GIT版Pencil2Dアニメ制作アプリ
-Adobe  Animate
+△GIT版xppendriver ペンタブドライバ 
+XP-PENドライバをスタートメニューから起動させる
 GIT
-https://github.com/pencil2d/pencil.git
-pencil2dppa
+https://github.com/megamuteki/xppendriver
+xppendriverpenppa
 ---
-△GIT版OpenToonzアニメ‐作成ソフト
-Adobe  Animate
+△GIT版pencal 液タブキャリブレータ 
+ミラーモード及びシングルモニタ用液タブキャリブレータ。６パターン登録できます。
 GIT
-https://github.com/opentoonz/opentoonz
-opentoonzppa
+https://github.com/megamuteki/pencal
+pencalpenppa
 ---
-●OpenShot動画編集アプリ
-Adobe Premiere
-APT
-https://www.openshot.org/ja/
-openshotapt
+△penmapペンタブマッピング 
+マルチモニタ環境で、ペンタブの描画先のモニタを変更するツール
+GIT
+https://github.com/megamuteki/penmap
+penmappenppa
 ---
-△PPA版OpenShot動画編集アプリ
-Adobe Premiere
-PPA
-https://launchpad.net/~openshot.developers/+archive/ubuntu/ppa
-openshotppa
----
-●Kdenlive動画編集アプリ
-Adobe Premiere
-APT
-https://kdenlive.org/en/
-kdenliveapt
----
-△PPA版Kdenlive動画編集アプリ
-Adobe Premiere
-PPA
-https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-stable
-kdenliveppa
----
-△PPA版ShotCut動画編集アプリ
-Adobe Premiere
-PPA
-https://launchpad.net/~haraldhv/+archive/ubuntu/shotcut/
-shotcutppa
----
-△PPA版cinelerra-cv動画編集アプリ
-Adobe Premiere
-PPA
-https://launchpad.net/~cinelerra-ppa/+archive/ubuntu/cinelerra-ext-libmpeg3
-cinelerrappa
----
-△DEB版Lightworks動画編集アプリ
-Adobe Premiere
-DEB
-https://downloads.lwks.com/
-lightworksppa
----
+
+
