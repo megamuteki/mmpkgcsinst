@@ -38,6 +38,16 @@ https://github.com/megamuteki/mmpkgcsinst/pulls
 
 ## 使用方法
 
+$git clone https://github.com/megamuteki/mmpkgcsinst.git
+
+または、
+
+$wget https://github.com/megamuteki/mmpkgcsinst/archive/master.zip -O ./mmpkgcsinst.zip ;  unzip ./mmpkgcsinst.zip ; rm ./mmpkgcsinst.zip
+
+でダウンロードします。
+
+
+
 ダウンロードしましたら、
 
 bash ./mm_pkgcsinst.sh
