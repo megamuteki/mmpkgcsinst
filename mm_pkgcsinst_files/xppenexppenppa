@@ -2,7 +2,7 @@
 
 ppa=" dummy"
 pkgs="digimend-dkms"
-devpkgs=" xserver-xorg-input-wacom dpkg-dev debhelper dkms  evtest  "
+devpkgs="dpkg-dev debhelper dkms  evtest  "
 
 datadir=$(cd $(dirname "$0") && pwd)
 
