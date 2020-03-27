@@ -870,15 +870,18 @@ http://moebuntu.web.fc2.com/
 
 ## サンプルの写真
 
-memo:Adobe CS Alternate スタート画面. 
+memo:Adobe CS Alternate スタート画面
+
 ![mmpkgcsinst](https://github.com/megamuteki/images/blob/master/mmpkgcsinst/mmpkgcsinst01.png)
 
 
 
-memo:Adobe CS Alternate 選択画面. 
+memo:Adobe CS Alternate 選択画面
+
 ![mmpkgcsinst](https://github.com/megamuteki/images/blob/master/mmpkgcsinst/mmpkgcsinst02.png)
 
 
 
-memo:ペンタブレットメニュー 選択画面. 
+memo:ペンタブレットメニュー 選択画面
+
 ![mmpkgcsinst](https://github.com/megamuteki/images/blob/master/mmpkgcsinst/mmpkgcsinst03.png)
