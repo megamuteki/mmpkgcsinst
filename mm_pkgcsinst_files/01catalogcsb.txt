@@ -60,6 +60,7 @@ pdfsamppa
 ---
 △pdfarranger PDF ページ加工ツール
 Adobe Acrobat
+PPA
 https://launchpad.net/~linuxuprising/+archive/ubuntu/apps
 pdfarrangerppa
 ---
