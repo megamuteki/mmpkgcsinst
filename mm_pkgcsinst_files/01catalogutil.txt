@@ -35,7 +35,7 @@ https://github.com/teejee2008/timeshift
 timeshiftutilapt
 ---
 △PPA版TimeShiftシステムバックアップ
-BOTH
+TimeMachineのように指定の時間にバックアップする。
 PPA
 https://launchpad.net/~teejee2008/+archive/ubuntu/ppa
 timeshiftutilppa
