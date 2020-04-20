@@ -1,0 +1,109 @@
+#!/bin/bash
+
+ppa=" dummy"
+pkgs=" dummy"
+devpkgs=" xinput x11-xserver-utils python-gtk2 python-appindicator python-gtk2  python-appindicator"
+
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+	
+# Check
+if [ "$1" == "-c" ] ; then
+	if [ -e /usr/local/bin/ptxconf.py ] ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+_installptxconf()
+{
+
+cd /tmp
+
+wget -O ptxconf.zip https://github.com/megamuteki/ptxconf/archive/master.zip  ;  unzip ./ptxconf.zip  ; rm ptxconf.zip
+
+cd /tmp/ptxconf-master
+sudo python setup.py install
+sudo python setup.py install --record $HOME/.config/ptxconfinst.log
+
+rm -rf /tmp/ptxconf-master
+
+}
+
+_installdesktopptxconf()
+{
+
+# DeskTopの追加
+echo "[Desktop Entry]
+Version=0.1.0
+Encoding=UTF-8
+Name=ptxconf
+Comment=ペンマッピング
+Exec=/usr/local/bin/ptxconf.py
+Icon=video-display
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories==System;Settings;" | sudo tee -a  /usr/share/applications/ptxconf.desktop
+
+}
+
+
+#install ${devpkgs}
+echo "インストールに必要なライブラリをインストールします。少し、時間がかかります。"
+	_install ${devpkgs}
+
+# Install ptxconf
+	_installptxconf 
+
+	if [ -e /usr/local/bin/ptxconf.py ] ; then
+		_log "ptxconfのインストールに成功しました。"
+	else
+		_err "ptxonfのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+#install ptxconf.desktop
+    _installdesktopptxconf
+
+	if  [ -e /usr/share/applications/ptxconf.desktop ] ; then
+		_log "ptxconfのデスクトップファイルのインストールに成功しました。"
+	else
+		_err "ptxconfのデスクトップファイルのインストールに失敗しました。"
+	fi
+
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+_uninstallptxconf()
+{
+
+	if [ -e $HOME/.config/ptxconfinst.log ] ; then
+		cat $HOME/.config/ptxconfinst.log | xargs sudo rm -rf
+        sudo rm /usr/share/applications/ptxconf.desktop
+
+	else
+		echo "インストール事の履歴が消えています。"
+        echo "以下のファイルを確認して、手動でアンインストールしてください。"
+        echo "/usr/local/lib/python2.X/dist-packages/ptxconftools"
+        echo "/usr/local/bin/ptxconf.py"
+        echo "/usr/local/lib/python2.X/dist-packages/ptxconf-0.1.0.egg-info"
+        echo "/usr/share/applications/ptxconf.desktop"
+	fi
+	
+}
+       
+    
+	if  _uninstallptxconf ; then
+		_log "ptxconfのアンインストールに成功しました。"
+	else
+		_err "ptxconfのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

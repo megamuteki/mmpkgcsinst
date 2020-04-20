@@ -28,17 +28,23 @@ GIT
 https://github.com/megamuteki/xppendriver
 xppendriverpenppa
 ---
-△GIT版pencal 液タブキャリブレータ 
-ミラーモード及びシングルモニタ用液タブキャリブレータ。６パターン登録できます。
-GIT
-https://github.com/megamuteki/pencal
-pencalpenppa
----
 △penmapペンタブマッピング 
 マルチモニタ環境で、ペンタブの描画先のモニタを変更するツール
 GIT
 https://github.com/megamuteki/penmap
 penmappenppa
+---
+△ptxconfペンタブマッピング 
+マルチモニタ環境で、ペンタブの描画先のモニタを変更するツール
+GIT
+https://github.com/megamuteki/ptxconf
+ptxconfpenppa
+---
+△GIT版pencal 液タブキャリブレータ 
+ミラーモード及びシングルモニタ用液タブキャリブレータ。６パターン登録できます。
+GIT
+https://github.com/megamuteki/pencal
+pencalpenppa
 ---
 
 
