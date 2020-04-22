@@ -2,7 +2,7 @@
 
 ppa=" dummy"
 pkgs=" dummy"
-devpkgs=" xinput x11-xserver-utils python-gtk2 python-appindicator python-gtk2  python-appindicator python-pip"
+devpkgs=" xinput x11-xserver-utils python-gtk2 python-appindicator python-gtk2  python-appindicator"
 
 datadir=$(cd $(dirname "$0") && pwd)
 
@@ -24,7 +24,13 @@ _installptxconf()
 
 cd /tmp
 
-sudo pip install  https://github.com/megamuteki/ptxconf/archive/master.zip 
+wget -O ptxconf.zip https://github.com/megamuteki/ptxconf/archive/master.zip  ;  unzip ./ptxconf.zip  ; rm ptxconf.zip
+
+cd /tmp/ptxconf-master
+sudo python setup.py install
+sudo python setup.py install --record $HOME/.config/ptxconfinst.log
+
+rm -rf /tmp/ptxconf-master
 
 }
 
@@ -77,13 +83,23 @@ elif [ "$1" == "-p" ] ; then
 _uninstallptxconf()
 {
 
-		sudo -H pip uninstall  ptxconf 
+	if [ -e $HOME/.config/ptxconfinst.log ] ; then
+		cat $HOME/.config/ptxconfinst.log | xargs sudo rm -rf
         sudo rm /usr/share/applications/ptxconf.desktop
+
+	else
+		echo "インストール事の履歴が消えています。"
+        echo "以下のファイルを確認して、手動でアンインストールしてください。"
+        echo "/usr/local/lib/python2.X/dist-packages/ptxconftools"
+        echo "/usr/local/bin/ptxconf.py"
+        echo "/usr/local/lib/python2.X/dist-packages/ptxconf-0.1.0.egg-info"
+        echo "/usr/share/applications/ptxconf.desktop"
+	fi
 	
 }
        
     
-	if  _uninstallptxconf  ; then
+	if  _uninstallptxconf ; then
 		_log "ptxconfのアンインストールに成功しました。"
 	else
 		_err "ptxconfのアンインストールに失敗しました。フォルダが残ったかもしれませせん。"
