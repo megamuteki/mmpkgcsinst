@@ -2,7 +2,7 @@
 
 ppa=" dummy"
 pkgs="pencal"
-devpkgs="yad xinput-calibrator"
+devpkgs="yad "
 datadir=$(cd $(dirname "$0") && pwd)
 
 . ${datadir}/00common.fnc
