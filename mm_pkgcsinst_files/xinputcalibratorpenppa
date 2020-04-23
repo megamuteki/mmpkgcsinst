@@ -1,0 +1,74 @@
+#!/bin/bash
+
+ppa="dummy"
+pkgs="xinput-calibrator"
+datadir=$(cd $(dirname "$0") && pwd)
+
+. ${datadir}/00common.fnc
+
+# Check
+if [ "$1" == "-c" ] ; then
+	if   [ $(_check ${pkgs}) == "n" ]  &&  [ -e  /usr/local/bin/xinput_calibrator ]     ; then
+		echo TRUE
+	else
+		echo FALSE
+	fi
+	
+# Install
+elif [ "$1" == "-i" ] ; then
+
+_installxinput_calibrator()
+{
+	INSTDIR="/tmp"
+	cd $INSTDIR
+
+    wget https://github.com/megamuteki/xinput_calibrator/archive/libinput.zip -O ./xinput_calibrator.zip ;  unzip ./xinput_calibrator.zip ; rm ./xinput_calibrator.zip
+    cd ./xinput_calibrator-libinput
+    ./autogen.sh
+    make
+    sudo make install
+    sudo rm -rf ../xinput_calibrator-libinput
+	
+}
+
+
+	if [ $(_check ${pkgs}) == "y" ]  ; then
+		_err "既に他のバージョンが存在します。他のバージョンのアンインストールが必要です。"
+	else
+		read -n1 -p "xinput_calibrator libinputをインストールします。よろしいですか? (y/N): " yn
+		if [[ $yn = [yY] ]]; then
+			echo "インストールを継続します。"
+ 			_installxinput_calibrator | grep -e error -e fatal   >> /tmp/mm_pkginst.log
+
+		else
+			echo "終了します。"
+			exit
+		fi
+
+	fi
+		
+	if [ -e   /usr/local/bin/xinput_calibrator ] ; then
+		_log "$pkgsのインストールに成功しました。"
+	else
+		_err "$pkgsのインストールに失敗しました。フォルダが残ったかもしれませせん。"
+	fi
+
+	
+# Purge
+elif [ "$1" == "-p" ] ; then
+
+
+_uninstallxinput_calibrator()
+{
+    find /usr/local/ -name "xinput_calibrator*" | sudo xargs rm -rf
+
+}      
+    
+	if  _uninstallxinput_calibrator ; then
+		_log "xinput_calibrator libinputのアンインストールに成功しました。"
+	else
+		_err "xinput_calibrator libinputのアンインストールに失敗したかフォルダが残ったかもしれませせん。"
+	fi
+
+
+fi

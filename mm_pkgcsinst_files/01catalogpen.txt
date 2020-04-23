@@ -10,6 +10,12 @@ PPA
 https://launchpad.net/~apandada1/+archive/ubuntu/brightness-controller
 brightnesscontrollerpenppa
 ---
+△GIT版xinput_calibrator libinput  デュアルモニター用キャリブレータ
+デュアルモニターのミラーモード用キャリブレータ
+GIT
+https://github.com/megamuteki/xinput_calibrator/tree/libinput
+xinputcalibratorpenppa
+---
 ●Arandrディスプレイ設定ツール
 ディスプレイのレイアウトなどを設定するツール
 APT
