@@ -2,6 +2,7 @@
 
 ppa="dummy"
 pkgs="xinput-calibrator"
+devpkgs="autogen autoconf automake libtool autoautotools-dev libcurl4-openssl-dev libx11-dev libxext-dev libxi-dev x11proto-input-dev libinput-dev"
 datadir=$(cd $(dirname "$0") && pwd)
 
 . ${datadir}/00common.fnc
@@ -22,6 +23,16 @@ _installxinput_calibrator()
 	INSTDIR="/tmp"
 	cd $INSTDIR
 
+	#install ${devpkgs}
+	echo -e "コンパイルに必要なライブラリをインストールします。\n 少し、時間がかかります。"
+
+	if _install ${devpkgs} ; then
+		_log "コンパイルに必要なライブラリのインストールに成功しました。"
+	else
+		_err "コンパイルに必要なライブラリのインストールに失敗しました。ファイルが残ったかも知れません"
+	fi
+	
+
     wget https://github.com/megamuteki/xinput_calibrator/archive/libinput.zip -O ./xinput_calibrator.zip ;  unzip ./xinput_calibrator.zip ; rm ./xinput_calibrator.zip
     cd ./xinput_calibrator-libinput
     ./autogen.sh
@@ -30,6 +41,9 @@ _installxinput_calibrator()
     sudo rm -rf ../xinput_calibrator-libinput
 	
 }
+
+
+
 
 
 	if [ $(_check ${pkgs}) == "y" ]  ; then
