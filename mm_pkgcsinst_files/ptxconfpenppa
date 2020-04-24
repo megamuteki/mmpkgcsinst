@@ -2,7 +2,7 @@
 
 ppa=" dummy"
 pkgs=" dummy"
-devpkgs=" xinput x11-xserver-utils python-gtk2 python-appindicator python-gtk2  python-appindicator python-pip"
+devpkgs=" xinput x11-xserver-utils python-gtk2 python-appindicator python-gtk2  python-appindicator python-pip python-setuptools python3-setuptools"
 
 datadir=$(cd $(dirname "$0") && pwd)
 
