@@ -2,7 +2,7 @@
 
 ppa="dummy"
 pkgs="xinput-calibrator"
-devpkgs="autogen autoconf automake libtool autoautotools-dev libcurl4-openssl-dev libx11-dev libxext-dev libxi-dev x11proto-input-dev libinput-dev"
+devpkgs="autogen autoconf automake libtool autotools-dev libcurl4-openssl-dev libx11-dev libxext-dev libxi-dev x11proto-input-dev libinput-dev"
 datadir=$(cd $(dirname "$0") && pwd)
 
 . ${datadir}/00common.fnc
